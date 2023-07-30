@@ -27,9 +27,12 @@ namespace EventSourcingTaskApp
                 connectionName: Configuration.GetValue<string>("EventStore:ConnectionName"));
 
             eventStoreConnection.ConnectAsync().GetAwaiter().GetResult();
-
-            services.AddSingleton(eventStoreConnection);
+            //Creating a single instance of the service  (AddSingleton)
+            services.AddSingleton(eventStoreConnection); 
+            //A new instance is created for each service request. (AddTransient)
             services.AddTransient<AggregateRepository>();
+            //It creates an instance for each incoming web request and uses the same instance for each incoming request, and creates a new instance for different web requests. (AddScoped)
+            //services.AddScoped<AggregateRepository>();  
 
             services.AddCouchbase((opt) =>
             {
@@ -42,7 +45,6 @@ namespace EventSourcingTaskApp
             services.AddTransient<TaskRepository>();
 
             services.AddHostedService<TaskHostedService>();
-
             services.AddControllers();
         }
 
