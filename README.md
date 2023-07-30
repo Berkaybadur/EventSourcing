@@ -1,2 +1,2 @@
-# EventSourcing
+# EventSourceProjectExample
 EventSourceProject
